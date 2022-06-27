@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_plan_sale_order_form" model="ir.ui.view">
+            <field name="name">plan.sale.order.form.view</field>
+            <field name="model">plan.sale.order</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="false">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" string="Plan name"/>
+                            <h1>
+                                <field name="name" placeholder="e.g. Kittie"
+                                       attrs="{'readonly':[('state','!=','new')]}" force_save="1" required="True"/>
+                            </h1>
+                        </div>
+                        <group name="images">
+                            <group>
+                                <field name="sale_order_id"
+                                       attrs="{'readonly':['|',('sale_order_id','!=',False),('state','!=','new')]}"
+                                       force_save="1"/>
+                                <field name="business_information"
+                                       attrs="{'readonly':[('state','!=','new')]}" force_save="1" required="True"/>
+                                <!--                                <field name="state"/>-->
+                                <field name="sale_order_state"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Approve">
+                                <field name="approver_lines" widget="section_and_note_one2many"
+                                       attrs="{'readonly': [('state', '!=', 'new')]}" required="True" force_save="1">
+                                    <tree editable="bottom">
+                                        <field name="user_id"/>
+                                        <field name="state" readonly='1' force_save="1"/>
+                                        <field name="plan_state" invisible='1'/>
+                                        <field name="is_user" invisible='1'/>
+                                        <button icon="fa-check text-success" name="action_button_approve"
+                                                string="Approve" type="object"
+                                                attrs="{'invisible':['|', '|', ('state','!=','wait'),('plan_state','=','new'),('is_user' ,'=', False)]}"/>
+                                        <button icon="fa-times-circle text-danger" name="action_button_deny"
+                                                string="Deny" type="object"
+                                                attrs="{'invisible':['|', '|', ('state','!=','wait'),('plan_state','=','new'),('is_user' ,'=', False)]}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <button name="send_mail_template" type="object" string="Send message"
+                                data-hotkey="q" attrs="{'invisible':[('state','!=','new')]}"/>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+
+                    <!--                    <footer>-->
+                    <!--                        <button name="write" type="object" string="Save" invisible='1'/>-->
+                    <!--                        <button name="cancel" string="Cancel" special="cancel" class="oe_link" invisible='1'/>-->
+                    <!--                    </footer>-->
+
+                </form>
+            </field>
+        </record>
+        <!--Tree-->
+        <record model="ir.ui.view" id="view_business_plan_tree">
+            <field name="name">business_plan_tree</field>
+            <field name="model">plan.sale.order</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree create="false">
+                    <field name="name"/>
+                    <field name="sale_order_id"/>
+                    <field name="business_information"/>
+                    <field name="state" decoration-success="state == 'accept'" decoration-warning="state == 'sent'"
+                           decoration-primary="state == 'callceled'"
+                           widget="badge" optional="show"/>
+                </tree>
+            </field>
+        </record>
+        <!--Filter-->
+        <record id="view_plan_sale_order_filter" model="ir.ui.view">
+            <field name="name">plan.sale.order</field>
+            <field name="model">plan.sale.order</field>
+            <field name="priority" eval="15"/>
+            <field name="arch" type="xml">
+                <search string="Plan sale order">
+                    <filter string="Plan sent" domain="[('state','=','sent')]" name="sent"/>
+                </search>
+            </field>
+        </record>
+
+        <!--action-->
+        <record id="action_product_warranty" model="ir.actions.act_window">
+            <field name="name">Business Plan</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">plan.sale.order</field>
+            <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('view_business_plan_tree')}),
+                                                (0, 0, {'view_mode': 'form', 'view_id': ref('view_plan_sale_order_form')})]"/>
+        </record>
+
+        <menuitem id="menu_product_warranty_valid"
+                  name="Business Plan"
+                  action="action_product_warranty"
+                  sequence="10"
+                  parent="sale.sale_menu_root"/>
+    </data>
+</odoo>

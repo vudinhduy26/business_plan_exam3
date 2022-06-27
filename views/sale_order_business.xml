@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="sale_order_view_inherit#">
+        <field name="name">sale.order.view.inherit##</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form/header/button[@name='action_confirm']" position="after">
+                <button name="action_create_plan" string="Create Plan" type="object"
+                        attrs="{'invisible': ['|',('business_plan','!=',False),('state','!=' , 'draft')]}"/>
+                <button name="action_check_plan" string="Check plan" type="object"/>
+                <button class="btn btn-outline-primary" name="confirm_order" type="object"
+                        string="Confirm the order."
+                        data-hotkey="q"
+                        attrs="{'invisible': ['|',('plan_state', '!=', 'accept'),('state', '=' ,'done')]}"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="business_plan" readonly='1' force_save='1'/>
+                <field name="plan_state" invisible='1'/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

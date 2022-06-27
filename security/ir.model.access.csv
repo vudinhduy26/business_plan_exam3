@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_business_plan_managers_copy_business_plan_managers_copy,business_plan_managers_copy.business_plan_managers_copy,model_sale_order,base.group_user,1,1,1,1
+access_business_plan_managers1,business_plan_managers_copy.business_plan_managers_copy1,model_approval_line,base.group_user,1,1,1,1
+access_business_plan_managers2,business_plan_managers_copy.business_plan_managers_copy2,model_plan_sale_order,base.group_user,1,1,1,1
+access_business_plan_managers3,business_plan_managers_copy.business_plan_managers_copy3,model_message_wizard,base.group_user,1,1,1,1
