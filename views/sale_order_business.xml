@@ -5,6 +5,17 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_view_invoice']" position="after">
+                <button
+                        string="Show Plan"
+                        type="object"
+                        name="action_view_plan"
+                        class="oe_stat_button"
+                        icon="fa-fast-forward"
+                        attrs="{'invisible':[('business_plan','=',False)]}"
+                >
+                </button>
+            </xpath>
             <xpath expr="/form/header/button[@name='action_confirm']" position="after">
                 <button name="action_create_plan" string="Create Plan" type="object"
                         attrs="{'invisible': ['|',('business_plan','!=',False),('state','!=' , 'draft')]}"/>

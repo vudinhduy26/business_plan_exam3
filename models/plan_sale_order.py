@@ -16,7 +16,7 @@ class PlanSaleOrder(models.Model):
     sale_order_state = fields.Selection(related='sale_order_id.state', string="Order State")
 
     def send_mail_template(self):
-        #ids = self.env.context['active_ids']
+        # ids = self.env.context['active_ids']
         for record in self:
             record.state = 'sent'
             record.sale_order_id.business_plan = record.id

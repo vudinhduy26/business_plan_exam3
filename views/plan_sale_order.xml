@@ -7,6 +7,8 @@
             <field name="arch" type="xml">
                 <form create="false" edit="false">
                     <header>
+                        <button name="send_mail_template" type="object" string="Send message"
+                                data-hotkey="q" attrs="{'invisible':[('state','!=','new')]}"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
@@ -47,8 +49,6 @@
                                 </field>
                             </page>
                         </notebook>
-                        <button name="send_mail_template" type="object" string="Send message"
-                                data-hotkey="q" attrs="{'invisible':[('state','!=','new')]}"/>
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids"/>
