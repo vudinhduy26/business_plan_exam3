@@ -23,6 +23,8 @@ class PlanSaleOrder(models.Model):
             partner_ids = []
             for line in record.approver_lines:
                 partner_ids.append(line.user_id.partner_id.id)
+                line.user_id.notify_warning(
+                    "A business plan " + record.sale_order_id.name + " has been created that needs approval! ")
             body = "A business plan has been created that needs approval! " + datetime.now().strftime(
                 "%H:%M:%S  %d/%m/%Y")
             record.sale_order_id.message_post(message_type='notification', partner_ids=partner_ids, body=body)

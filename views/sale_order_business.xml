@@ -23,7 +23,7 @@
                 <button class="btn btn-outline-primary" name="confirm_order" type="object"
                         string="Confirm the order."
                         data-hotkey="q"
-                        attrs="{'invisible': ['|',('plan_state', '!=', 'accept'),('state', '=' ,'done')]}"/>
+                        attrs="{'invisible': ['|','|',('plan_state', '!=', 'accept'),('state', '=' ,'done'),('business_plan','!=',False)]}"/>
             </xpath>
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="business_plan" readonly='1' force_save='1'/>
