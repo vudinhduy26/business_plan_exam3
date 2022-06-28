@@ -36,7 +36,8 @@ class ApprovalLine(models.Model):
         for record in self:
             record.state = 'deny'
             record.plan_id.state = 'cancel'
-            body = "Refuse plan! "
+            body = "Refuse plan! " + datetime.strftime(
+                fields.Datetime.context_timestamp(self, datetime.now()), "%H:%M:%S %Y-%m-%d")
             user_create_plan = [record.plan_id.create_uid.partner_id.id]
             # return notification form plan.sale.order and sale.order
             record.plan_id.message_post(message_type='notification', partner_ids=user_create_plan, body=body)

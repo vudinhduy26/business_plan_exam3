@@ -25,8 +25,8 @@ class PlanSaleOrder(models.Model):
                 partner_ids.append(line.user_id.partner_id.id)
                 line.user_id.notify_warning(
                     "A business plan " + record.sale_order_id.name + " has been created that needs approval! ")
-            body = "A business plan has been created that needs approval! " + datetime.now().strftime(
-                "%H:%M:%S  %d/%m/%Y")
+            body = "A business plan has been created that needs approval! " + datetime.strftime(
+                fields.Datetime.context_timestamp(self, datetime.now()), "%H:%M:%S %Y-%m-%d")
             record.sale_order_id.message_post(message_type='notification', partner_ids=partner_ids, body=body)
 
         message_id = self.env['message.wizard'].sudo().create({'message': "Invitation is successfully sent"})
